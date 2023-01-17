@@ -152,8 +152,10 @@ import 'dart:io';
 
 import 'package:ecom/Notification.dart';
 import 'package:ecom/search.dart';
+import 'package:ecom/search/search_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ecom/horizontal_list.dart';
 
@@ -217,10 +219,11 @@ class _customappbarState extends State<customappbar> {
         IconButton(
           onPressed: () {
             // method to show the search bar
-            showSearch(
-                context: context,
-                // delegate to customize the search bar
-                delegate: CustomSearchDelegate());
+            // showSearch(
+            //     context: context,
+            //     // delegate to customize the search bar
+            //     delegate: CustomSearchDelegate());
+            Get.to(SearchView());
           },
           icon: const Icon(Icons.search, color: Colors.grey),
         ),
