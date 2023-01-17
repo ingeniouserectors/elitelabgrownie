@@ -6,6 +6,7 @@ import 'package:ecom/webview/videoplayer.dart';
 import 'package:ecom/webview/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import 'dummy/dummyDiamond.dart';
@@ -43,7 +44,7 @@ class _MyAppState extends State<MyApp> {
             create: (BuildContext context) => CartBloc(),
           ),
         ],
-        child: MaterialApp(
+        child: GetMaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
             primarySwatch: Colors.blue,
