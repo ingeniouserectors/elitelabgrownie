@@ -15,6 +15,8 @@ import 'dummy/zoomin_out.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
+
+  
 }
 
 class MyApp extends StatefulWidget {
