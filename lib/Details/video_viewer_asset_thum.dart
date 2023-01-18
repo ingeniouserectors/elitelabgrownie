@@ -75,7 +75,7 @@ class _VideoViewerAssetThumState extends State<VideoViewerAssetThum> {
         // alignment: Alignment.center,
         scale: 1,
         child: Container(
-          color: Colors.cyanAccent,
+          // color: Colors.cyanAccent,
           width: widget.mWidth,
           height: widget.mHeight,
           child: VideoPlayer(_controller),
