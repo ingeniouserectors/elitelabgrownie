@@ -1,16 +1,23 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:ecom/Details/DetailPage.dart';
 import 'package:ecom/core/view/app_string.dart';
 import 'package:ecom/search/main_filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../Head_footer/appbar.dart';
 import '../Head_footer/drawer.dart';
 import '../HomePage_Button/model/model_custom_products.dart';
+import '../Main_Page/Cart.dart';
+import '../Main_Page/HomePage.dart';
+import '../Main_Page/Profile.dart';
+import '../Main_Page/catagory.dart';
+import '../Main_Page/order.dart';
 import '../constant.dart';
 import '../core/view/image_viewer_network.dart';
 import '../horizontal_list.dart';
@@ -35,7 +42,7 @@ class _SearchViewState extends State<SearchView> {
 
   TextEditingController txtSearch = TextEditingController();
   List<FilterItems> filters = [FilterItems('+ Filter', '')];
-
+  int currentTab = 3;
   List<ModelCustomProducts> products = [];
 
   List<FilterItems> jewellery = [
@@ -339,32 +346,55 @@ class _SearchViewState extends State<SearchView> {
           children: [
             Text(product.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
             SizedBox(height: 10,),
-            Text('\u0024 ${product.finalprice}', style: TextStyle(fontSize: 15),),
+            Text(
+              "\$${double.parse(product.finalprice).toStringAsFixed(2)}",
+              textAlign: TextAlign.left,
+              style: GoogleFonts.raleway(
+                textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            // Text('\u0024 ${product.finalprice}', style: TextStyle(fontSize: 15),),
           ],
         ),
       );
     }
 
     Widget _productCell(int index, ModelCustomProducts product){
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        height: 150,
-        width: Get.width,
-        // color: Colors.red,
-        child: Row(
-          children: [
-            _productImage(product),
-            SizedBox(width: 20,),
-            _namePrice(product),
-            Spacer(),
-            GestureDetector(
-              onTap: (){
-                print('add to cart');
-              },
-              child: Icon(Icons.add_shopping_cart,size: 20,),
-            ),
-            SizedBox(width: 20,),
-          ],
+      return InkWell(
+        onTap: (){
+          Get.to(DetailPage(mModelCustomProducts: product));
+        },
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          height: 150,
+          width: Get.width,
+          // color: Colors.red,
+          child: Row(
+            children: [
+              _productImage(product),
+              SizedBox(width: 20,),
+              _namePrice(product),
+              Spacer(),
+              GestureDetector(
+                onTap: (){
+                  print('add to cart');
+                },
+                child: Container(
+                  height: 100,
+                  width: 100,
+                  child: Icon(
+                    Icons.add_shopping_cart,
+                    size: 25,
+                  ),
+                ),
+              ),
+              // SizedBox(width: 20,),
+            ],
+          ),
         ),
       );
     }
@@ -421,6 +451,141 @@ class _SearchViewState extends State<SearchView> {
 
 
     return Scaffold(
+      floatingActionButton: Container(
+        height: 70.0,
+        width: 70.0,
+        child: FittedBox(
+          child: FloatingActionButton(
+              backgroundColor: Colors.blueAccent[700],
+              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
+              onPressed: () {
+                setState(() {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomePage(),
+                      ));
+                });
+              }),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 5,
+        child: Container(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MaterialButton(
+                    minWidth: 120,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Category(),
+                            ));
+                        // currentScreen = Category();
+                        currentTab = 0;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ImageIcon(
+                          const AssetImage("assets/images/Bottom/first.png"),
+                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
+                        ),
+                        // Text("AP")
+                      ],
+                    ),
+                  ),
+                  MaterialButton(
+                    minWidth: 220,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Order(),
+                            ));
+                        currentTab = 1;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.favorite_border,
+                          size: 30,
+                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
+                        ),
+                        // Text("AP")
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MaterialButton(
+                    minWidth: 220,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Cart(),
+                            ));
+                        currentTab = 4;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ImageIcon(
+                          const AssetImage("assets/images/Bottom/cart.png"),
+                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
+                        ),
+                        // Text("AP")
+                      ],
+                    ),
+                  ),
+                  MaterialButton(
+                    minWidth: 120,
+                    onPressed: () {
+                      setState(() {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Profile(),
+                            ));
+                        currentTab = 5;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ImageIcon(
+                          const AssetImage("assets/images/Bottom/profile.png"),
+                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
+                        ),
+                        // Text("AP")
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
       drawer: Drawer(
         child: drawer(),
       ),
