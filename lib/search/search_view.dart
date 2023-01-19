@@ -19,6 +19,7 @@ import '../Main_Page/Profile.dart';
 import '../Main_Page/catagory.dart';
 import '../Main_Page/order.dart';
 import '../constant.dart';
+import '../core/view/db_provider.dart';
 import '../core/view/image_viewer_network.dart';
 import '../horizontal_list.dart';
 import 'package:http/http.dart' as http;
@@ -85,46 +86,83 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
+    isCart() {
+      if (DbProvider()
+          .getCart()
+          .isNotEmpty) {
+        print('not empty------------');
+        products.forEach((element) {
+          element.isCart = false;
+        });
 
+        for (int i = 0; i < products.length; i++) {
+          for (int j = 0; j < DbProvider()
+              .getCart()
+              .length; j++) {
+            if (DbProvider().getCart()[j].entityId != null &&
+                DbProvider().getCart()[j].entityId.toString() ==
+                    products[i].entityId.toString()) {
+              products[i].isCart = true;
+            }
+          }
+        }
+        setState(() {});
+      } else {
+        setState(() {
+          // for (int i = 0; i < products.length; i++) {
+          //   products[i].isCart = false;
+          // }
+          products.forEach((element) {
+            element.isCart = false;
+          });
+        });
+      }
+    }
 
     _apiCall() async {
-
       productURL = AppString.seeAll;
 
-      if (txtSearch.text != ''){
-        productURL = productURL + '?searchword=${txtSearch.text}';
+      if (txtSearch.text != '') {
+        productURL =
+            productURL + '?searchword=${txtSearch.text.replaceAll(" ", "%20")}';
       }
 
-      if (selectedJwe.length > 0){
-        List<String> ids = selectedJwe.map((e) {return e.id;}).toList();
+      if (selectedJwe.length > 0) {
+        List<String> ids = selectedJwe.map((e) {
+          return e.id;
+        }).toList();
 
-        if (txtSearch.text != ''){
+        if (txtSearch.text != '') {
           productURL = productURL + '&category_id=${ids.join(',')}';
-        }else{
+        } else {
           productURL = productURL + '?category_id=${ids.join(',')}';
         }
       }
 
-      if (selectedShape.length > 0){
-        List<String> ids = selectedShape.map((e) {return e.id;}).toList();
+      if (selectedShape.length > 0) {
+        List<String> ids = selectedShape.map((e) {
+          return e.id;
+        }).toList();
 
-        if (txtSearch.text != '' || selectedJwe.length > 0){
-          productURL = productURL+'&shapes=${ids.join(',')}';
-        }else{
-          productURL = productURL+'?shapes=${ids.join(',')}';
+        if (txtSearch.text != '' || selectedJwe.length > 0) {
+          productURL = productURL + '&shapes=${ids.join(',')}';
+        } else {
+          productURL = productURL + '?shapes=${ids.join(',')}';
         }
       }
 
-      if (selectedMetal.length > 0){
-        List<String> ids = selectedMetal.map((e) {return e.id;}).toList();
+      if (selectedMetal.length > 0) {
+        List<String> ids = selectedMetal.map((e) {
+          return e.id;
+        }).toList();
 
-        if (txtSearch.text != '' || selectedJwe.length > 0 || selectedShape.length > 0){
-          productURL = productURL+'&metalcolor=${ids.join(',')}';
-        }else{
-          productURL = productURL+'?metalcolor=${ids.join(',')}';
+        if (txtSearch.text != '' || selectedJwe.length > 0 ||
+            selectedShape.length > 0) {
+          productURL = productURL + '&metalcolor=${ids.join(',')}';
+        } else {
+          productURL = productURL + '?metalcolor=${ids.join(',')}';
         }
       }
-
 
       setState(() {
         isLoading = true;
@@ -164,18 +202,43 @@ class _SearchViewState extends State<SearchView> {
 
       setState(() {
         isLoading = false;
+        isCart();
       });
-
     }
 
-    Widget _searchBar(){
+    _setSelectedFilter() {
+      filters = [FilterItems('+ Filter', '')];
+
+      selectedJwe = jewellery.filter((element) {
+        return element.isSelected == true;
+      }).toList();
+      selectedShape = centerShape.filter((element) {
+        return element.isSelected == true;
+      }).toList();
+      selectedMetal = metal.filter((element) {
+        return element.isSelected == true;
+      }).toList();
+
+      selectedJwe.forEach((element) {
+        filters.add(element);
+      });
+      selectedShape.forEach((element) {
+        filters.add(element);
+      });
+      selectedMetal.forEach((element) {
+        filters.add(element);
+      });
+      _apiCall();
+    }
+
+    Widget _searchBar() {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15 ),
+        padding: EdgeInsets.symmetric(horizontal: 15),
         height: 50,
         child: Row(
           children: [
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Get.back();
               },
               child: Icon(
@@ -202,23 +265,23 @@ class _SearchViewState extends State<SearchView> {
                 ),
                 onChanged: (str) {
                   // print(str);
+                  setState(() {
+                    if (str.length >= 3){
+                      _apiCall();
+                    }
+                  });
                 },
                 textInputAction: TextInputAction.search,
                 onSubmitted: (str) {
-                  setState(() {
-                    // if (productURL == AppString.seeAll){
-                    //   productURL = productURL + '?searchword=$str';
-                    // }else{
-                    //   productURL = productURL + '&searchword=$str';
-                    // }
-                    _apiCall();
-                  });
+                  // setState(() {
+                  //   _apiCall();
+                  // });
                 },
               ),
             ),
             SizedBox(width: 10,),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 FocusScope.of(context).unfocus();
                 _apiCall();
               },
@@ -231,9 +294,9 @@ class _SearchViewState extends State<SearchView> {
       );
     }
 
-    
-    Widget _listChild(int index){
-      if (index == 0){
+
+    Widget _listChild(int index, FilterItems filter) {
+      if (index == 0) {
         return GestureDetector(
           onTap: () {
             showModalBottomSheet(
@@ -250,78 +313,89 @@ class _SearchViewState extends State<SearchView> {
                     metal: metal,
                   );
                 }).then((value) {
-                  if (value){
-                    print('apply filter');
+              if (value) {
+                print('apply filter');
 
-                    setState(() {
-                      filters = [FilterItems('+ Filter', '')];
-
-                      selectedJwe = jewellery.filter((element) {return element.isSelected == true;}).toList();
-                      selectedShape = centerShape.filter((element) {return element.isSelected == true;}).toList();
-                      selectedMetal = metal.filter((element) {return element.isSelected == true;}).toList();
-
-                      selectedJwe.forEach((element) {filters.add(element);});
-                      selectedShape.forEach((element) {filters.add(element);});
-                      selectedMetal.forEach((element) {filters.add(element);});
-                      _apiCall();
-                    });
-                  }else{
-                    setState(() {
-                      filters = [FilterItems('+ Filter', '')];
-                      selectedJwe = [];
-                      selectedShape = [];
-                      selectedMetal = [];
-                    });
-                  }
+                setState(() {
+                  _setSelectedFilter();
+                });
+              } else {
+                setState(() {
+                  filters = [FilterItems('+ Filter', '')];
+                  selectedJwe = [];
+                  selectedShape = [];
+                  selectedMetal = [];
+                });
+              }
             });
           },
           child: Container(
             alignment: Alignment.center,
             padding: EdgeInsets.only(right: 15),
-            child: Text(filters[index].name, style: TextStyle(fontSize: 15, color: Colors.black),),
+            child: Text(filter.name,
+              style: TextStyle(fontSize: 15, color: Colors.black),),
           ),
         );
-      }else{
+      } else {
         return Container(
           alignment: Alignment.center,
           padding: EdgeInsets.only(right: 15),
-          child: Text(filters[index].name, style: TextStyle(fontSize: 15, color: Colors.cyan),),
-          // child: Row(
-          //   children: [
-          //     Text(filters[index].name, style: TextStyle(fontSize: 15, color: Colors.cyan),),
-          //     SizedBox(width: 4,),
-          //     GestureDetector(
-          //       onTap: (){
-          //         setState(() {
-          //           filters.removeAt(index);
-          //         });
-          //       },
-          //       child: Icon(
-          //         Icons.cancel,
-          //         size: 20,
-          //         color: Colors.cyan,
-          //       ),
-          //     ),
-          //   ],
-          // ),
+          // child: Text(filters[index].name, style: TextStyle(fontSize: 15, color: Colors.cyan),),
+          child: Row(
+            children: [
+              Text(filter.name,
+                style: TextStyle(fontSize: 15, color: Colors.cyan),),
+              SizedBox(width: 4,),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    print('-----${filter.name} ${filter.id}----');
+                    jewellery.forEach((element) {
+                      if (element.id == filter.id) {
+                        element.isSelected = false;
+                      }
+                    });
+
+                    centerShape.forEach((element) {
+                      if (element.id == filter.id) {
+                        element.isSelected = false;
+                      }
+                    });
+
+                    metal.forEach((element) {
+                      if (element.id == filter.id) {
+                        element.isSelected = false;
+                      }
+                    });
+                    _setSelectedFilter();
+                  });
+                },
+                child: Icon(
+                  Icons.cancel,
+                  size: 20,
+                  color: Colors.cyan,
+                ),
+              ),
+            ],
+          ),
         );
       }
     }
-    
+
     Widget _filterListView() {
       return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15 ),
+        padding: EdgeInsets.symmetric(horizontal: 15),
         height: 50,
         child: ListView.builder(
             itemCount: filters.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return _listChild(index);
+              return _listChild(index, filters[index]);
             }),
       );
     }
 
-    Widget _productImage(ModelCustomProducts product){
+    Widget _productImage(ModelCustomProducts product) {
       return Container(
         height: 100,
         width: 100,
@@ -338,13 +412,14 @@ class _SearchViewState extends State<SearchView> {
       );
     }
 
-    Widget _namePrice(ModelCustomProducts product){
+    Widget _namePrice(ModelCustomProducts product) {
       return Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(product.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+            Text(product.name,
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
             SizedBox(height: 10,),
             Text(
               "\$${double.parse(product.finalprice).toStringAsFixed(2)}",
@@ -363,9 +438,36 @@ class _SearchViewState extends State<SearchView> {
       );
     }
 
-    Widget _productCell(int index, ModelCustomProducts product){
+    _addToCart(ModelCustomProducts product) {
+      if (product.isInStock == '1') {
+        var data = product;
+        data.qty = 1;
+        DbProvider().addCart(jsonEncode(data), false, context);
+        isCart();
+      }
+    }
+
+    Widget _cartButton(ModelCustomProducts product, {Color color = Colors.black}) {
+      return GestureDetector(
+        onTap: () {
+          print('add to cart');
+          _addToCart(product);
+        },
+        child: Container(
+          height: 100,
+          width: 100,
+          child: Icon(
+            Icons.add_shopping_cart,
+            size: 25,
+            color: color,
+          ),
+        ),
+      );
+    }
+
+    Widget _productCell(int index, ModelCustomProducts product) {
       return InkWell(
-        onTap: (){
+        onTap: () {
           Get.to(DetailPage(mModelCustomProducts: product));
         },
         child: Container(
@@ -379,19 +481,9 @@ class _SearchViewState extends State<SearchView> {
               SizedBox(width: 20,),
               _namePrice(product),
               Spacer(),
-              GestureDetector(
-                onTap: (){
-                  print('add to cart');
-                },
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  child: Icon(
-                    Icons.add_shopping_cart,
-                    size: 25,
-                  ),
-                ),
-              ),
+              product.isCart != null && product.isCart!
+                  ? _cartButton(product, color: Colors.cyan)
+                  : _cartButton(product),
               // SizedBox(width: 20,),
             ],
           ),
@@ -401,22 +493,22 @@ class _SearchViewState extends State<SearchView> {
 
     Widget _productListView() {
       return Container(
-          child: ListView.separated(
-            shrinkWrap: true,
-            itemCount: products.length,
-            itemBuilder: (context, index) {
-              return _productCell(index, products[index]);
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                height: 10,
-              );
-        },
-      ),
+        child: ListView.separated(
+          shrinkWrap: true,
+          itemCount: products.length,
+          itemBuilder: (context, index) {
+            return _productCell(index, products[index]);
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return SizedBox(
+              height: 10,
+            );
+          },
+        ),
       );
     }
 
-    Widget _allColumnWidget(){
+    Widget _allColumnWidget() {
       return Container(
         color: Colors.transparent,
         child: Column(
@@ -438,11 +530,14 @@ class _SearchViewState extends State<SearchView> {
             isLoading ? Container(
               height: 60,
               alignment: Alignment.center,
-              child: Lottie.asset('assets/images/lottie/ic_loading_lottie.json'),
+              child: Lottie.asset(
+                  'assets/images/lottie/ic_loading_lottie.json'),
             ) : products.length == 0 ?
             Container(
               alignment: Alignment.center,
-              child: Text('No Product Found', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey),),
+              child: Text('No Product Found', style: TextStyle(fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey),),
             ) : Expanded(child: _productListView()),
           ],
         ),
@@ -457,7 +552,8 @@ class _SearchViewState extends State<SearchView> {
         child: FittedBox(
           child: FloatingActionButton(
               backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
+              child: const ImageIcon(
+                  AssetImage("assets/images/Bottom/home.png")),
               onPressed: () {
                 setState(() {
                   Navigator.pushReplacement(
@@ -499,7 +595,9 @@ class _SearchViewState extends State<SearchView> {
                       children: [
                         ImageIcon(
                           const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
+                          color: currentTab == 0
+                              ? Colors.blueAccent[700]
+                              : Colors.grey,
                         ),
                         // Text("AP")
                       ],
@@ -523,7 +621,9 @@ class _SearchViewState extends State<SearchView> {
                         Icon(
                           Icons.favorite_border,
                           size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
+                          color: currentTab == 1
+                              ? Colors.blueAccent[700]
+                              : Colors.grey,
                         ),
                         // Text("AP")
                       ],
@@ -551,7 +651,9 @@ class _SearchViewState extends State<SearchView> {
                       children: [
                         ImageIcon(
                           const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
+                          color: currentTab == 4
+                              ? Colors.blueAccent[700]
+                              : Colors.grey,
                         ),
                         // Text("AP")
                       ],
@@ -574,7 +676,9 @@ class _SearchViewState extends State<SearchView> {
                       children: [
                         ImageIcon(
                           const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
+                          color: currentTab == 5
+                              ? Colors.blueAccent[700]
+                              : Colors.grey,
                         ),
                         // Text("AP")
                       ],
