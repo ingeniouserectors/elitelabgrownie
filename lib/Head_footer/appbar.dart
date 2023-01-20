@@ -163,6 +163,7 @@ import 'package:ecom/horizontal_list.dart';
 import 'package:google_mlkit_object_detection/google_mlkit_object_detection.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 
 class customappbar extends StatefulWidget implements PreferredSizeWidget {
@@ -282,13 +283,10 @@ class _customappbarState extends State<customappbar> {
           inputImage.inputImageData!.size);
       _customPaint = CustomPaint(painter: painter);
     } else {
-      String text = 'Objects found: ${objects.length}\n\n';
-      // for (final object in objects) {
-      text +=
-      'Object:  trackingId: ${objects.first.trackingId} - ${objects.first.labels.map((e) => e.text)}\n\n';
-      // }
+      String text = objects.count != 0 ? "${objects.first.labels.last.text}" : "";
       _text = text;
       print("Final Text ============ >>>>>>>>>>>>>: $_text");
+      Get.to(SearchView(objectStr: _text ?? ''));
       // TODO: set _customPaint to draw boundingRect on top of image
       _customPaint = null;
     }
@@ -355,7 +353,7 @@ class _customappbarState extends State<customappbar> {
             //     context: context,
             //     // delegate to customize the search bar
             //     delegate: CustomSearchDelegate());
-            Get.to(SearchView());
+            Get.to(SearchView(objectStr: ''));
           },
           icon: const Icon(Icons.search, color: Colors.grey),
         ),

@@ -34,7 +34,8 @@ class FilterItems{
 }
 
 class SearchView extends StatefulWidget {
-  const SearchView({Key? key}) : super(key: key);
+  String objectStr = '';
+  SearchView({required this.objectStr})
   @override
   State<SearchView> createState() => _SearchViewState();
 }
@@ -85,126 +86,150 @@ class _SearchViewState extends State<SearchView> {
   bool isLoading = false;
 
   @override
-  Widget build(BuildContext context) {
-    isCart() {
-      if (DbProvider()
-          .getCart()
-          .isNotEmpty) {
-        print('not empty------------');
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _searching();
+  }
+
+  void refresh(String childValue) {
+    setState(() {
+      txtSearch.text = childValue;
+      _searching();
+    });
+  }
+
+  _searching(){
+    setState(() {
+      if (!widget.objectStr.isEmpty){
+        txtSearch.text = widget.objectStr;
+        _apiCall();
+      }
+    });
+  }
+
+  _apiCall() async {
+    productURL = AppString.seeAll;
+
+    if (txtSearch.text != '') {
+      productURL =
+          productURL + '?searchword=${txtSearch.text.replaceAll(" ", "%20")}';
+    }
+
+    if (selectedJwe.length > 0) {
+      List<String> ids = selectedJwe.map((e) {
+        return e.id;
+      }).toList();
+
+      if (txtSearch.text != '') {
+        productURL = productURL + '&category_id=${ids.join(',')}';
+      } else {
+        productURL = productURL + '?category_id=${ids.join(',')}';
+      }
+    }
+
+    if (selectedShape.length > 0) {
+      List<String> ids = selectedShape.map((e) {
+        return e.id;
+      }).toList();
+
+      if (txtSearch.text != '' || selectedJwe.length > 0) {
+        productURL = productURL + '&shapes=${ids.join(',')}';
+      } else {
+        productURL = productURL + '?shapes=${ids.join(',')}';
+      }
+    }
+
+    if (selectedMetal.length > 0) {
+      List<String> ids = selectedMetal.map((e) {
+        return e.id;
+      }).toList();
+
+      if (txtSearch.text != '' || selectedJwe.length > 0 ||
+          selectedShape.length > 0) {
+        productURL = productURL + '&metalcolor=${ids.join(',')}';
+      } else {
+        productURL = productURL + '?metalcolor=${ids.join(',')}';
+      }
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    var headers = {
+      "Accept": "application/json",
+      "consumerKey": "bbae36baea2ef8dcd1f9a8a88cc59f06",
+      "consumerSecret": "5edc426ec2965bba17c96e766c47ad73",
+      "oauth_token": "819dc5826cd08cca9c57d392ba2b305e",
+      "oauth_token_secret": "97565ea77d5c8c8f7c63b8f5f3916656",
+    };
+
+    print('url--$productURL');
+    print('Header--$headers');
+
+    var response = await http.get(Uri.parse(productURL), headers: headers);
+    print('widget.statusCode--${response.statusCode}');
+    log('widget.body--${response.body.toString()}');
+
+    setState(() {
+      isLoading = response.body == [];
+      products = [];
+    });
+
+    Map<String, dynamic> valueMap = jsonDecode(response.body.toString());
+    valueMap.forEach((key, value) {
+      try {
+        ModelCustomProducts streams = ModelCustomProducts.fromJson(value);
+        products.add(streams);
+      } catch (e) {
+        // isLoading = false;
+        log('catch--$e');
+      }
+    });
+    print('Total ${products.length} Found');
+
+    setState(() {
+      isLoading = false;
+      isCart();
+    });
+  }
+
+  isCart() {
+    if (DbProvider()
+        .getCart()
+        .isNotEmpty) {
+      print('not empty------------');
+      products.forEach((element) {
+        element.isCart = false;
+      });
+
+      for (int i = 0; i < products.length; i++) {
+        for (int j = 0; j < DbProvider()
+            .getCart()
+            .length; j++) {
+          if (DbProvider().getCart()[j].entityId != null &&
+              DbProvider().getCart()[j].entityId.toString() ==
+                  products[i].entityId.toString()) {
+            products[i].isCart = true;
+          }
+        }
+      }
+      setState(() {});
+    } else {
+      setState(() {
+        // for (int i = 0; i < products.length; i++) {
+        //   products[i].isCart = false;
+        // }
         products.forEach((element) {
           element.isCart = false;
         });
-
-        for (int i = 0; i < products.length; i++) {
-          for (int j = 0; j < DbProvider()
-              .getCart()
-              .length; j++) {
-            if (DbProvider().getCart()[j].entityId != null &&
-                DbProvider().getCart()[j].entityId.toString() ==
-                    products[i].entityId.toString()) {
-              products[i].isCart = true;
-            }
-          }
-        }
-        setState(() {});
-      } else {
-        setState(() {
-          // for (int i = 0; i < products.length; i++) {
-          //   products[i].isCart = false;
-          // }
-          products.forEach((element) {
-            element.isCart = false;
-          });
-        });
-      }
-    }
-
-    _apiCall() async {
-      productURL = AppString.seeAll;
-
-      if (txtSearch.text != '') {
-        productURL =
-            productURL + '?searchword=${txtSearch.text.replaceAll(" ", "%20")}';
-      }
-
-      if (selectedJwe.length > 0) {
-        List<String> ids = selectedJwe.map((e) {
-          return e.id;
-        }).toList();
-
-        if (txtSearch.text != '') {
-          productURL = productURL + '&category_id=${ids.join(',')}';
-        } else {
-          productURL = productURL + '?category_id=${ids.join(',')}';
-        }
-      }
-
-      if (selectedShape.length > 0) {
-        List<String> ids = selectedShape.map((e) {
-          return e.id;
-        }).toList();
-
-        if (txtSearch.text != '' || selectedJwe.length > 0) {
-          productURL = productURL + '&shapes=${ids.join(',')}';
-        } else {
-          productURL = productURL + '?shapes=${ids.join(',')}';
-        }
-      }
-
-      if (selectedMetal.length > 0) {
-        List<String> ids = selectedMetal.map((e) {
-          return e.id;
-        }).toList();
-
-        if (txtSearch.text != '' || selectedJwe.length > 0 ||
-            selectedShape.length > 0) {
-          productURL = productURL + '&metalcolor=${ids.join(',')}';
-        } else {
-          productURL = productURL + '?metalcolor=${ids.join(',')}';
-        }
-      }
-
-      setState(() {
-        isLoading = true;
-      });
-
-      var headers = {
-        "Accept": "application/json",
-        "consumerKey": "bbae36baea2ef8dcd1f9a8a88cc59f06",
-        "consumerSecret": "5edc426ec2965bba17c96e766c47ad73",
-        "oauth_token": "819dc5826cd08cca9c57d392ba2b305e",
-        "oauth_token_secret": "97565ea77d5c8c8f7c63b8f5f3916656",
-      };
-
-      print('url--$productURL');
-      print('Header--$headers');
-
-      var response = await http.get(Uri.parse(productURL), headers: headers);
-      print('widget.statusCode--${response.statusCode}');
-      log('widget.body--${response.body.toString()}');
-
-      setState(() {
-        isLoading = response.body == [];
-        products = [];
-      });
-
-      Map<String, dynamic> valueMap = jsonDecode(response.body.toString());
-      valueMap.forEach((key, value) {
-        try {
-          ModelCustomProducts streams = ModelCustomProducts.fromJson(value);
-          products.add(streams);
-        } catch (e) {
-          // isLoading = false;
-          log('catch--$e');
-        }
-      });
-      print('Total ${products.length} Found');
-
-      setState(() {
-        isLoading = false;
-        isCart();
       });
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     _setSelectedFilter() {
       filters = [FilterItems('+ Filter', '')];
