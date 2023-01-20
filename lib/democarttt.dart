@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:ecom/Details/alsolike.dart';
+import 'package:ecom/checkout/checkout_view.dart';
 import 'package:ecom/core/model/model_cart_products.dart';
 import 'package:ecom/core/view/db_provider.dart';
 import 'package:ecom/core/view/image_viewer_network.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'Main_Page/order.dart';
 import 'demo/view/widget_cart.dart';
@@ -303,7 +305,9 @@ class _cartuiState extends State<cartui> {
                       borderRadius: BorderRadius.circular(50.0),
                     ),
                   ),
-                  onPressed: () => {},
+                  onPressed: () => {
+                    Get.to(CheckoutView())
+                  },
                   icon: const Icon(
                     Icons.credit_card,
                     color: Colors.white,
