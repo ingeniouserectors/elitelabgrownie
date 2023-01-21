@@ -85,8 +85,12 @@ dependencies:
   equatable: ^2.0.5
 
   #provider:
-  provider: ^6.0.4
+  provider: ^6.0.5
   flutter_launcher_icons: ^0.11.0
+
+  #Object Detection
+  google_mlkit_object_detection:
+  path: ^1.8.2
 
 dev_dependencies:
   flutter_test:
@@ -124,6 +128,7 @@ flutter:
     - assets/Jewellery/
     - assets/diamond_shape/
     - assets/nimage/
+    - assets/ml/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
