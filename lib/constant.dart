@@ -1,3 +1,6 @@
+
+import 'package:flutter/material.dart';
+
 class AppIcons {
   // static const ic_logo = "assets/icons/ic_logo.png";
   static const diamond_asscher = "assets/diamond_shape/diamond_asscher.png";
@@ -11,3 +14,6 @@ class AppIcons {
   static const diamond_radiant = "assets/diamond_shape/diamond_radiant.png";
   static const diamond_round = "assets/diamond_shape/diamond_round.png";
 }
+
+const kLightGrey = Color(0xffEBEBEB);
+const themeGrey = Color(0xff5c7580);
