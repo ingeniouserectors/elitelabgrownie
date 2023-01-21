@@ -1,3 +1,4 @@
+import 'package:ecom/checkout/checkout_complete.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -35,7 +36,7 @@ class PaymentView extends StatelessWidget {
           _titleValue('Total', '\$${controller.getTotal()}', decoration: TextDecoration.underline, fontSize: 20),
           SizedBox(height: 30,),
           CommonFunction.shared.shadowThemeButton('PLACE MY ORDER', 50, () {
-
+            Get.off(CheckoutComplete());
           }, BGColor: Colors.cyan, textColor: Colors.white),
           SizedBox(height: 20,),
           GestureDetector(

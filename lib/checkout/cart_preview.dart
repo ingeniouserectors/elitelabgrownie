@@ -30,7 +30,7 @@ class CartPreviewView extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            color: Colors.grey,
+            // color: Colors.grey,
             child: ImageViewerNetwork(
               mFit: BoxFit.fill,
               url:product.isDiamond!
