@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:ecom/Details/DetailPage.dart';
 import 'package:ecom/core/view/app_string.dart';
+import 'package:ecom/search/SearchController.dart';
 import 'package:ecom/search/main_filter_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,14 +36,15 @@ class FilterItems{
 
 class SearchView extends StatefulWidget {
   String objectStr = '';
-  SearchView({required this.objectStr})
+  SearchView({required this.objectStr});
+  updateOrder(String str) => createState().refresh(str);
   @override
-  State<SearchView> createState() => _SearchViewState();
+  _SearchViewState createState() => _SearchViewState();
 }
 
 class _SearchViewState extends State<SearchView> {
+  final controller = Get.put(SearchController());
 
-  TextEditingController txtSearch = TextEditingController();
   List<FilterItems> filters = [FilterItems('+ Filter', '')];
   int currentTab = 3;
   List<ModelCustomProducts> products = [];
@@ -89,31 +91,31 @@ class _SearchViewState extends State<SearchView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _searching();
+    refresh(widget.objectStr);
   }
 
   void refresh(String childValue) {
-    setState(() {
-      txtSearch.text = childValue;
-      _searching();
-    });
+    print("Test Call Back : ${childValue}");
+    // Future.delayed(Duration(seconds: 2),() {
+      print("After Delay ====== >>>>>>  : ${childValue}");
+      // setState(() {
+      //    controller.txtSearch.text = childValue;
+        controller.updateSearchValue(str: childValue);
+        _searching();
+      // });
+    // });
   }
 
   _searching(){
-    setState(() {
-      if (!widget.objectStr.isEmpty){
-        txtSearch.text = widget.objectStr;
-        _apiCall();
-      }
-    });
+    _apiCall();
   }
 
   _apiCall() async {
     productURL = AppString.seeAll;
 
-    if (txtSearch.text != '') {
+    if (controller.txtSearch.text != '') {
       productURL =
-          productURL + '?searchword=${txtSearch.text.replaceAll(" ", "%20")}';
+          productURL + '?searchword=${controller.txtSearch.text.replaceAll(" ", "%20")}';
     }
 
     if (selectedJwe.length > 0) {
@@ -121,7 +123,7 @@ class _SearchViewState extends State<SearchView> {
         return e.id;
       }).toList();
 
-      if (txtSearch.text != '') {
+      if (controller.txtSearch.text != '') {
         productURL = productURL + '&category_id=${ids.join(',')}';
       } else {
         productURL = productURL + '?category_id=${ids.join(',')}';
@@ -133,7 +135,7 @@ class _SearchViewState extends State<SearchView> {
         return e.id;
       }).toList();
 
-      if (txtSearch.text != '' || selectedJwe.length > 0) {
+      if (controller.txtSearch.text != '' || selectedJwe.length > 0) {
         productURL = productURL + '&shapes=${ids.join(',')}';
       } else {
         productURL = productURL + '?shapes=${ids.join(',')}';
@@ -145,7 +147,7 @@ class _SearchViewState extends State<SearchView> {
         return e.id;
       }).toList();
 
-      if (txtSearch.text != '' || selectedJwe.length > 0 ||
+      if (controller.txtSearch.text != '' || selectedJwe.length > 0 ||
           selectedShape.length > 0) {
         productURL = productURL + '&metalcolor=${ids.join(',')}';
       } else {
@@ -272,35 +274,39 @@ class _SearchViewState extends State<SearchView> {
             ),
             SizedBox(width: 10,),
             Expanded(
-              child: TextField(
-                controller: txtSearch,
-                decoration: InputDecoration(
-                  hintText: 'Search for items',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: Colors.grey.withOpacity(0.2),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onChanged: (str) {
-                  // print(str);
-                  setState(() {
-                    if (str.length >= 3){
-                      _apiCall();
-                    }
-                  });
-                },
-                textInputAction: TextInputAction.search,
-                onSubmitted: (str) {
-                  // setState(() {
-                  //   _apiCall();
-                  // });
+              child: GetBuilder<SearchController>(
+                builder: (con) {
+                  return TextField(
+                    controller: controller.txtSearch,
+                    decoration: InputDecoration(
+                      hintText: 'Search for items',
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.grey.withOpacity(0.2),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onChanged: (str) {
+                      // print(str);
+                      setState(() {
+                        if (str.length >= 3){
+                          _apiCall();
+                        }
+                      });
+                    },
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (str) {
+                      // setState(() {
+                      //   _apiCall();
+                      // });
+                    },
+                  );
                 },
               ),
             ),

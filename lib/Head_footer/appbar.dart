@@ -287,6 +287,7 @@ class _customappbarState extends State<customappbar> {
       _text = text;
       print("Final Text ============ >>>>>>>>>>>>>: $_text");
       Get.to(SearchView(objectStr: _text ?? ''));
+      SearchView(objectStr: text).updateOrder(text);
       // TODO: set _customPaint to draw boundingRect on top of image
       _customPaint = null;
     }
