@@ -16,3 +16,4 @@ class AppIcons {
 }
 
 const kLightGrey = Color(0xffEBEBEB);
+const themeGrey = Color(0xff5c7580);

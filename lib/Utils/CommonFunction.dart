@@ -20,12 +20,15 @@ class CommonFunction {
         dynamic fontWeight = FontWeight.normal,
         dynamic noOfLine = 1,
         TextAlign textAlignment = TextAlign.start,
-        double minFontSize = 10}) {
+        double minFontSize = 10,
+        TextDecoration? decoration,
+      }) {
     return AutoSizeText(
       title,
       textDirection: TextDirection.ltr,
       textAlign: textAlignment,
       style: TextStyle(
+        decoration: decoration,
         color: color,
         fontSize: double.parse(fontSize.toString()),
         fontWeight: fontWeight,
