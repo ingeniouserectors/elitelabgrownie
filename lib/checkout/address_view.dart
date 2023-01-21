@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:country_state_city_picker/country_state_city_picker.dart';
 import 'package:ecom/Utils/CommonFunction.dart';
 import 'package:ecom/Utils/CommonTextField.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,7 @@ class AddressView extends StatelessWidget {
 
   Widget _allWidgets(){
     return GetBuilder<CheckoutController>(builder: (controller) {
+      log('${controller.country} ======');
       return Container(
         // height: 2000,
         // width: 500,
@@ -92,18 +95,30 @@ class AddressView extends StatelessWidget {
             }),
             SizedBox(height: 20,),
             _buttonWithImage('SELECT ADDRESS', (){
-
             }),
-            SizedBox(height: 10,),
-            CommonTextField(
-                controller: txtCity,
-                placeholder: "City",
-                keyboardType: TextInputType.text,
-                onChanged: (str) {
-                  controller.city = str;
-                }
+            SizedBox(height: 20,),
+            SelectState(
+              onCountryChanged: (value) {
+                controller.country = value;
+              },
+              onStateChanged:(value) {
+                controller.state = value;
+              },
+              onCityChanged:(value) {
+                controller.city = value;
+              },
+
             ),
-            SizedBox(height: 10,),
+            // SizedBox(height: 10,),
+            // CommonTextField(
+            //     controller: txtCity,
+            //     placeholder: "City",
+            //     keyboardType: TextInputType.text,
+            //     onChanged: (str) {
+            //       controller.city = str;
+            //     }
+            // ),
+            // SizedBox(height: 10,),
             CommonTextField(
                 controller: txtApartment,
                 placeholder: "Apartment",

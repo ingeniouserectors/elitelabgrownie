@@ -37,11 +37,18 @@ class CheckoutController extends GetxController{
   String lastName = '';
   String phoneNumber = '';
   String email = '';
+  String country = '';
+  String state = '';
   String city = '';
   String apartment = '';
   String block = '';
   String streetName = '';
   String zipcode = '';
+
+  updateCountry(String value){
+    country = value;
+    update();
+  }
 
   getCartList(){
     if (DbProvider().getCart().isNotEmpty) {

@@ -88,6 +88,8 @@ dependencies:
   provider: ^6.0.4
   flutter_launcher_icons: ^0.11.0
 
+  country_state_city_picker: ^1.2.8
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
