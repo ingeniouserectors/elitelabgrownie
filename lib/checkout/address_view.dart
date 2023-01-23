@@ -89,14 +89,14 @@ class AddressView extends StatelessWidget {
                   controller.email = str;
                 }
             ),
-            SizedBox(height: 20,),
-            _buttonWithImage('SEARCHING ADDRESS', (){
-
-            }),
-            SizedBox(height: 20,),
-            _buttonWithImage('SELECT ADDRESS', (){
-            }),
-            SizedBox(height: 20,),
+            SizedBox(height: 10,),
+            // _buttonWithImage('SEARCHING ADDRESS', (){
+            //
+            // }),
+            // SizedBox(height: 20,),
+            // _buttonWithImage('SELECT ADDRESS', (){
+            // }),
+            // SizedBox(height: 20,),
             SelectState(
               onCountryChanged: (value) {
                 controller.country = value;
@@ -109,16 +109,6 @@ class AddressView extends StatelessWidget {
               },
 
             ),
-            // SizedBox(height: 10,),
-            // CommonTextField(
-            //     controller: txtCity,
-            //     placeholder: "City",
-            //     keyboardType: TextInputType.text,
-            //     onChanged: (str) {
-            //       controller.city = str;
-            //     }
-            // ),
-            // SizedBox(height: 10,),
             CommonTextField(
                 controller: txtApartment,
                 placeholder: "Apartment",
