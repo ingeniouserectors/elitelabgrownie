@@ -151,6 +151,7 @@
 import 'dart:io' as io;
 
 import 'package:ecom/Notification.dart';
+import 'package:ecom/Utils/CommonFunction.dart';
 import 'package:ecom/painters/object_detector_painter.dart';
 import 'package:ecom/search.dart';
 import 'package:ecom/search/search_view.dart';
@@ -283,11 +284,18 @@ class _customappbarState extends State<customappbar> {
           inputImage.inputImageData!.size);
       _customPaint = CustomPaint(painter: painter);
     } else {
-      String text = objects.count != 0 ? "${objects.first.labels.last.text}" : "";
-      _text = text;
-      print("Final Text ============ >>>>>>>>>>>>>: $_text");
-      Get.to(SearchView(objectStr: _text ?? ''));
-      SearchView(objectStr: text).updateOrder(text);
+      String text = '';
+      // objects.count != 0 ? "${objects.first.labels.last.text}" : "";
+      for (final object in objects) {
+        text += "${object.labels.map((e) => e.text).join(",")}";
+      }
+      print("Final Text ============ >>>>>>>>>>>>>: $text");
+      if (text == ""){
+        CommonFunction.shared.showSnackBar('No Object Found');
+        return;
+      }
+      Get.to(SearchView(objectStr: text ?? ''));
+      SearchView(objectStr: text).updateOrder(text!);
       // TODO: set _customPaint to draw boundingRect on top of image
       _customPaint = null;
     }
