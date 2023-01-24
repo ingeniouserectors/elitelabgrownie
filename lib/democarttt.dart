@@ -20,7 +20,6 @@ class cartui extends StatefulWidget {
 }
 
 class _cartuiState extends State<cartui> {
-  int currentTab = 3;
   Widget currentScreen = const cartui();
   final PageStorageBucket bucket = PageStorageBucket();
 
