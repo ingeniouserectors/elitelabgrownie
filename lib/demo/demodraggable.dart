@@ -12,6 +12,7 @@ import '../Main_Page/Cart.dart';
 import '../Main_Page/Profile.dart';
 import '../Main_Page/catagory.dart';
 import '../Main_Page/order.dart';
+import '../bottom_navigation.dart';
 import '../webview/videoplayer.dart';
 
 class DraggableScrollableSheetExample extends StatefulWidget {
@@ -28,7 +29,6 @@ class _DraggableScrollableSheetExampleState extends State<DraggableScrollableShe
     'assets/diamond_shape/image_2022_12_29T12_34_09_253Z.png',
     'assets/diamond_shape/image_2022_12_29T12_34_26_100Z.png'
   ];
-  int currentTab = 3;
   double fontSize = 18;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
@@ -36,141 +36,9 @@ class _DraggableScrollableSheetExampleState extends State<DraggableScrollableShe
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: Container(
-          height: 70.0,
-          width: 70.0,
-          child: FittedBox(
-            child: FloatingActionButton(
-                backgroundColor: Colors.blueAccent[700],
-                child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-                onPressed: () {
-                  setState(() {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const HomePage(),
-                        ));
-                  });
-                }),
-          ),
-        ),
+        floatingActionButton: BottomHomeButton(),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 5,
-          child: Container(
-            height: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MaterialButton(
-                      minWidth: 120,
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Category(),
-                              ));
-                          // currentScreen = Category();
-                          currentTab = 0;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ImageIcon(
-                            const AssetImage("assets/images/Bottom/first.png"),
-                            color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                          ),
-                          // Text("AP")
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 220,
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Order(),
-                              ));
-                          currentTab = 1;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.favorite_border,
-                            size: 30,
-                            color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                          ),
-                          // Text("AP")
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MaterialButton(
-                      minWidth: 220,
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Cart(),
-                              ));
-                          currentTab = 4;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ImageIcon(
-                            const AssetImage("assets/images/Bottom/cart.png"),
-                            color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                          ),
-                          // Text("AP")
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: 120,
-                      onPressed: () {
-                        setState(() {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Profile(),
-                              ));
-                          currentTab = 5;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ImageIcon(
-                            const AssetImage("assets/images/Bottom/profile.png"),
-                            color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                          ),
-                          // Text("AP")
-                        ],
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
+        bottomNavigationBar: BottomNavigationView(),
         drawer: const Drawer(
           child: drawer(),
         ),
@@ -315,148 +183,15 @@ class _DraggableScrollableSheetExample1State extends State<DraggableScrollableSh
   ];
 
   double fontSize = 18;
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),
@@ -585,148 +320,15 @@ class _DraggableScrollableSheetExample2State extends State<DraggableScrollableSh
     'assets/diamond_shape/image_2022_12_29T12_34_26_100Z.png'
   ];
 
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),
@@ -874,148 +476,15 @@ class _DraggableScrollableSheetExample3State extends State<DraggableScrollableSh
   ];
 
   double fontSize = 18;
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),
@@ -1145,148 +614,15 @@ class _DraggableScrollableSheetExample01State extends State<DraggableScrollableS
   ];
 
   double fontSize = 18;
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),
@@ -1415,148 +751,15 @@ class _DraggableScrollableSheetExample4State extends State<DraggableScrollableSh
   ];
 
   double fontSize = 18;
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),
@@ -1684,148 +887,15 @@ class _DraggableScrollableSheetExample5State extends State<DraggableScrollableSh
   ];
 
   double fontSize = 18;
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),
@@ -1952,7 +1022,6 @@ class _DraggableScrollableSheetExample6State extends State<DraggableScrollableSh
     'assets/diamond_shape/image_2022_12_29T12_34_26_100Z.png'
   ];
 
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -1960,141 +1029,9 @@ class _DraggableScrollableSheetExample6State extends State<DraggableScrollableSh
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),
@@ -2223,148 +1160,15 @@ class _DraggableScrollableSheetExample7State extends State<DraggableScrollableSh
   ];
 
   double fontSize = 18;
-  int currentTab = 3;
   Widget currentScreen = DraggableScrollableSheetExample();
   final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: const ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Category(),
-                            ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Order(),
-                            ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Cart(),
-                            ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Profile(),
-                            ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          const AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       drawer: const Drawer(
         child: drawer(),
       ),

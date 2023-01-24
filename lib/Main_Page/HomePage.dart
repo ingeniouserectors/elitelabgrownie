@@ -17,6 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:marquee/marquee.dart';
 
+import '../bottom_navigation.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -25,7 +27,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int currentTab = 3;
   Widget currentScreen = HomePage();
   final PageStorageBucket bucket = PageStorageBucket();
 
@@ -71,145 +72,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: Container(
-        height: 70.0,
-        width: 70.0,
-        child: FittedBox(
-          child: FloatingActionButton(
-              backgroundColor: Colors.blueAccent[700],
-              child: ImageIcon(AssetImage("assets/images/Bottom/home.png")),
-              onPressed: () {
-                setState(() {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomePage(),
-                      ));
-                });
-              }),
-        ),
-      ),
+      floatingActionButton: BottomHomeButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 5,
-        child: Container(
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Category(),));
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => Category(),
-                        //     ));
-                        // currentScreen = Category();
-                        currentTab = 0;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          AssetImage("assets/images/Bottom/first.png"),
-                          color: currentTab == 0 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Order(),));
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => Order(),
-                        //     ));
-                        currentTab = 1;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 30,
-                          color: currentTab == 1 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MaterialButton(
-                    minWidth: 220,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>   Cart()));
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => Cart(),
-                        //     ));
-                        currentTab = 4;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          AssetImage("assets/images/Bottom/cart.png"),
-                          color: currentTab == 4 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                  MaterialButton(
-                    minWidth: 120,
-                    onPressed: () {
-                      setState(() {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) =>  Profile(),));
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: (context) => Profile(),
-                        //     ));
-                        currentTab = 5;
-                      });
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ImageIcon(
-                          AssetImage("assets/images/Bottom/profile.png"),
-                          color: currentTab == 5 ? Colors.blueAccent[700] : Colors.grey,
-                        ),
-                        // Text("AP")
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationView(),
       backgroundColor: Colors.white,
       drawer: Drawer(
         child: drawer(),
